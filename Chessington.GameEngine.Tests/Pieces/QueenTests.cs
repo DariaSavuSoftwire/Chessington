@@ -43,5 +43,31 @@ namespace Chessington.GameEngine.Tests.Pieces
             
             moves.Should().HaveCount(27);
         }
+
+        [Test]
+        public void Queen_CannnotPassThrough_OpposingPieces()
+        {
+            var board = new Board();
+            var queen = new Queen(Player.White);
+            board.AddPiece(Square.At(4, 4), queen);
+            var pieceToTake = new Pawn(Player.Black);
+            board.AddPiece(Square.At(4, 6), pieceToTake);
+
+            var moves = queen.GetAvailableMoves(board);
+            moves.Should().NotContain(Square.At(4, 7));
+        }
+
+        [Test]
+        public void Queen_CannnotPassThrough_FriendlyPieces()
+        {
+            var board = new Board();
+            var queen = new Queen(Player.White);
+            board.AddPiece(Square.At(4, 4), queen);
+            var friendlyPiece = new Pawn(Player.White);
+            board.AddPiece(Square.At(4, 6), friendlyPiece);
+
+            var moves = queen.GetAvailableMoves(board);
+            moves.Should().NotContain(Square.At(4, 7));
+        }
     }
 }
