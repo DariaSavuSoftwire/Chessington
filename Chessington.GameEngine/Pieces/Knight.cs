@@ -5,19 +5,14 @@ namespace Chessington.GameEngine.Pieces
 {
     public class Knight : Piece
     {
-        private (int x, int y)[] knightMovement =
-            { (-2, -1), (-2, 1), (-1, 2), (1, 2), (2, -1), (2, 1), (1, -2), (-1, -2) };
-
         public Knight(Player player)
-            : base(player)
-        {
-        }
+            : base(player) { }
 
         public override IEnumerable<Square> GetAvailableMoves(Board board)
         {
             List<Square> moves = new List<Square>();
             Square currentSquare = board.FindPiece(this);
-            foreach (var (row, col) in knightMovement)
+            foreach (var (row, col) in GameSettings.KnightMoves)
             {
                 Square nextSquare = Square.At(currentSquare.Row + row, currentSquare.Col + col);
                 if (board.IsSquareInBoard(nextSquare) && board.GetPiece(nextSquare) == null)

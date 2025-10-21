@@ -16,18 +16,14 @@ namespace Chessington.GameEngine.Tests.Pieces
             board.AddPiece(Square.At(4, 4), knight);
 
             var moves = knight.GetAvailableMoves(board);
+            var expectedMoves = new List<Square>();
 
-            var expectedMoves = new List<Square>
+            foreach (var (row, col) in GameSettings.KnightMoves)
             {
-                Square.At(2, 5),
-                Square.At(2, 3),
-                Square.At(3, 6),
-                Square.At(3, 2),
-                Square.At(5, 6),
-                Square.At(5, 2),
-                Square.At(6, 5),
-                Square.At(6, 3)
-            };
+                Square nextSquare = Square.At(4 + row, 4 + col);
+                if (board.IsSquareInBoard(nextSquare) && board.GetPiece(nextSquare) == null)
+                    expectedMoves.Add(nextSquare);
+            }
 
             moves.ShouldAllBeEquivalentTo(expectedMoves);
         }
