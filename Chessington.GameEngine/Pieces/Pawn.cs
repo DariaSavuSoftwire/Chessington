@@ -23,6 +23,11 @@ namespace Chessington.GameEngine.Pieces
                     moves.Add(nextSquare);
             }
 
+            Square nextSquare = Player == Player.White
+                ? Square.At(currentSquare.Row - 1, currentSquare.Col)
+                : Square.At(currentSquare.Row + 1, currentSquare.Col);
+            if (board.IsSquareInBoard(nextSquare) && board.GetPiece(nextSquare) == null)
+                moves.Add(nextSquare);
             return moves;
         }
     }
