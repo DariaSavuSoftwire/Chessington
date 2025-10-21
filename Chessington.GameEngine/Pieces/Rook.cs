@@ -6,44 +6,27 @@ namespace Chessington.GameEngine.Pieces
 {
     public class Rook : Piece
     {
+        private (int, int)[] rookMoves = { (-1, 0), (1, 0), (0, 1), (0, -1) };
+
         public Rook(Player player)
             : base(player) { }
 
         public override IEnumerable<Square> GetAvailableMoves(Board board)
         {
-            Square currentSquare = board.FindPiece(this);
             List<Square> moves = new List<Square>();
+            Square currentSquare = board.FindPiece(this);
 
-            for (int col = currentSquare.Col - 1; col >= 0; col--)
+            foreach (var (moveRow, moveCol) in rookMoves)
             {
-                Square nextSquare = Square.At(currentSquare.Row, col);
-                if (board.GetPiece(nextSquare) != null)
-                    break;
-                moves.Add(nextSquare);
-            }
-
-            for (int row = currentSquare.Row + -1; row >= 0; row--)
-            {
-                Square nextSquare = Square.At(row, currentSquare.Col);
-                if (board.GetPiece(nextSquare) != null)
-                    break;
-                moves.Add(nextSquare);
-            }
-
-            for (int col = currentSquare.Col + 1; col < GameSettings.BoardSize; col++)
-            {
-                Square nextSquare = Square.At(currentSquare.Row, col);
-                if (board.GetPiece(nextSquare) != null)
-                    break;
-                moves.Add(nextSquare);
-            }
-
-            for (int row = currentSquare.Row + 1; row < GameSettings.BoardSize; row++)
-            {
-                Square nextSquare = Square.At(row, currentSquare.Col);
-                if (board.GetPiece(nextSquare) != null)
-                    break;
-                moves.Add(nextSquare);
+                for (int row = currentSquare.Row + moveRow, col = currentSquare.Col + moveCol;
+                     board.IsSquareInBoard(Square.At(row, col));
+                     row += moveRow, col += moveCol)
+                {
+                    Square nextSquare = Square.At(row, col);
+                    if (board.GetPiece(nextSquare) != null)
+                        break;
+                    moves.Add(nextSquare);
+                }
             }
 
             return moves;

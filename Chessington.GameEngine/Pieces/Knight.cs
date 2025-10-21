@@ -5,7 +5,7 @@ namespace Chessington.GameEngine.Pieces
 {
     public class Knight : Piece
     {
-        private (int x, int y)[] knightMovement =
+        private (int, int)[] knightMovement =
             { (-2, -1), (-2, 1), (-1, 2), (1, 2), (2, -1), (2, 1), (1, -2), (-1, -2) };
 
         public Knight(Player player)
