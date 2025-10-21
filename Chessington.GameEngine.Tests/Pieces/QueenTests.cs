@@ -17,16 +17,18 @@ namespace Chessington.GameEngine.Tests.Pieces
 
             var moves = queen.GetAvailableMoves(board);
             var expectedMoves = new List<Square>();
-
-            for (var i = 0; i < 8; i++)
-                expectedMoves.Add(Square.At(4, i));
-
-            for (var i = 0; i < 8; i++)
-                expectedMoves.Add(Square.At(i, 4));
-
-            //Get rid of our starting location.
-            expectedMoves.RemoveAll(s => s == Square.At(4, 4));
-
+            
+            foreach (var (directionsRow, directionsCol) in GameSettings.RookMoves)
+            {
+                for (int row = 4 + directionsRow, col = 4 + directionsCol;
+                     board.IsSquareInBoard(Square.At(row, col));
+                     row += directionsRow, col += directionsCol)
+                {
+                    Square nextSquare = Square.At(row, col);
+                    if (board.GetPiece(nextSquare) == null)
+                        expectedMoves.Add(nextSquare);
+                }
+            }
             moves.Should().Contain(expectedMoves);
         }
 
@@ -39,16 +41,18 @@ namespace Chessington.GameEngine.Tests.Pieces
 
             var moves = queen.GetAvailableMoves(board);
             var expectedMoves = new List<Square>();
-
-            for (var i = 0; i < 8; i++)
-                expectedMoves.Add(Square.At(i, i));
-
-            for (var i = 1; i < 7; i++)
-                expectedMoves.Add(Square.At(i, 8 - i));
-
-            //Get rid of our starting location.
-            expectedMoves.RemoveAll(s => s == Square.At(4, 4));
-
+            foreach (var (directionsRow, directionsCol) in GameSettings.BishopMoves)
+            {
+                for (int row = 4 + directionsRow, col = 4 + directionsCol;
+                     board.IsSquareInBoard(Square.At(row, col));
+                     row += directionsRow, col += directionsCol)
+                {
+                    Square nextSquare = Square.At(row, col);
+                    if (board.GetPiece(nextSquare) == null)
+                        expectedMoves.Add(nextSquare);
+                }
+            }
+            
             moves.Should().Contain(expectedMoves);
         }
 
@@ -60,8 +64,7 @@ namespace Chessington.GameEngine.Tests.Pieces
             board.AddPiece(Square.At(4, 4), queen);
 
             var moves = queen.GetAvailableMoves(board);
-
-            //There are 27 valid lateral and diagonal moves. We need to make sure that no other moves are available.
+            
             moves.Should().HaveCount(27);
         }
     }
