@@ -18,18 +18,19 @@ namespace Chessington.GameEngine.Tests.Pieces
             var moves = bishop.GetAvailableMoves(board);
 
             var expectedMoves = new List<Square>();
-
-            //Checking the backwards diagonal, i.e. 0,0 1,1, 2,2
-            for (var i = 0; i < 8; i++)
-                expectedMoves.Add(Square.At(i, i));
-
-            //Checking the forwards diagonal i.e. 5,3 6,2 7,1
-            for (var i = 1; i < 8; i++)
-                expectedMoves.Add(Square.At(i, 8 - i));
-
-            //Get rid of our starting location.
-            expectedMoves.RemoveAll(s => s == Square.At(4, 4));
-
+            (int, int)[] bishopMoves = { (-1, -1), (1, -1), (-1, 1), (1, 1) };
+            foreach (var (directionsRow, directionsCol) in bishopMoves)
+            {
+                for (int row = 4 + directionsRow, col = 4 + directionsCol;
+                     board.IsSquareInBoard(Square.At(row, col));
+                     row += directionsRow, col += directionsCol)
+                {
+                    Square nextSquare = Square.At(row, col);
+                    if (board.GetPiece(nextSquare) == null)
+                        expectedMoves.Add(nextSquare);
+                }
+            }
+            
             moves.ShouldAllBeEquivalentTo(expectedMoves);
         }
     }
