@@ -18,16 +18,11 @@ namespace Chessington.GameEngine.Pieces
                 Square nextSquare = Player == Player.White
                     ? Square.At(currentSquare.Row - move, currentSquare.Col)
                     : Square.At(currentSquare.Row + move, currentSquare.Col);
-                if ((hasNotMovedBefore || move == 1) && nextSquare.Row >= 0 &&
-                    nextSquare.Row < GameSettings.BoardSize && board.GetPiece(nextSquare) == null)
+                if ((hasNotMovedBefore || move == 1) && board.IsSquareInBoard(nextSquare) &&
+                    board.GetPiece(nextSquare) == null)
                     moves.Add(nextSquare);
             }
 
-            Square nextSquare = Player == Player.White
-                ? Square.At(currentSquare.Row - 1, currentSquare.Col)
-                : Square.At(currentSquare.Row + 1, currentSquare.Col);
-            if (board.IsSquareInBoard(nextSquare) && board.GetPiece(nextSquare) == null)
-                moves.Add(nextSquare);
             return moves;
         }
     }
