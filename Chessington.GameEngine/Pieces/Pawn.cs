@@ -4,10 +4,10 @@ namespace Chessington.GameEngine.Pieces
 {
     public class Pawn : Piece
     {
+        private (int, int)[] pawnMovesCapture = { (1, -1), (1, 1) };
+
         public Pawn(Player player)
-            : base(player)
-        {
-        }
+            : base(player) { }
 
         public int GetStartingRow(Player player)
         {
@@ -27,6 +27,16 @@ namespace Chessington.GameEngine.Pieces
                 if (board.IsSquareInBoard(nextSquare) && board.GetPiece(nextSquare) != null)
                     break;
                 if ((hasNotMovedBefore || move == 1) && board.IsSquareInBoard(nextSquare))
+                    moves.Add(nextSquare);
+            }
+
+            foreach (var (row, col) in pawnMovesCapture)
+            {
+                Square nextSquare = Player == Player.White
+                    ? Square.At(currentSquare.Row - row, currentSquare.Col + col)
+                    : Square.At(currentSquare.Row + row, currentSquare.Col + col);
+                if (board.IsSquareInBoard(nextSquare) && board.GetPiece(nextSquare) != null &&
+                    board.GetPiece(nextSquare).Player != Player)
                     moves.Add(nextSquare);
             }
 
