@@ -1,16 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace Chessington.GameEngine.Pieces
 {
     public class Pawn : Piece
     {
         public Pawn(Player player)
-            : base(player)
-        {
-        }
+            : base(player) { }
 
         public override IEnumerable<Square> GetAvailableMoves(Board board)
         {
