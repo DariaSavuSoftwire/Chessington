@@ -13,20 +13,17 @@ namespace Chessington.GameEngine.Tests.Pieces
         {
             var board = new Board();
             var rook = new Rook(Player.White);
-            board.AddPiece(Square.At(4, 4), rook);
+            board.AddPiece(Square.At(0, 0), rook);
 
             var moves = rook.GetAvailableMoves(board);
             var expectedMoves = new List<Square>();
 
-            for (var i = 0; i < 8; i++)
-                expectedMoves.Add(Square.At(4, i));
+            for (var i = 1; i < 8; i++)
+                expectedMoves.Add(Square.At(0, i));
 
-            for (var i = 0; i < 8; i++)
-                expectedMoves.Add(Square.At(i, 4));
-
-            //Get rid of our starting location.
-            expectedMoves.RemoveAll(s => s == Square.At(4, 4));
-
+            for (var i = 1; i < 8; i++)
+                expectedMoves.Add(Square.At(i, 0));
+            
             moves.Should().Contain(expectedMoves);
         }
     }
