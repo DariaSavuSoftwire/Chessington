@@ -9,14 +9,14 @@ namespace Chessington.GameEngine
     {
         private readonly Piece[,] board;
         public Player CurrentPlayer { get; private set; }
-        public IList<Piece> CapturedPieces { get; private set; } 
+        public IList<Piece> CapturedPieces { get; private set; }
 
         public Board()
             : this(Player.White) { }
 
         public Board(Player currentPlayer, Piece[,] boardState = null)
         {
-            board = boardState ?? new Piece[GameSettings.BoardSize, GameSettings.BoardSize]; 
+            board = boardState ?? new Piece[GameSettings.BoardSize, GameSettings.BoardSize];
             CurrentPlayer = currentPlayer;
             CapturedPieces = new List<Piece>();
         }
@@ -31,18 +31,18 @@ namespace Chessington.GameEngine
         {
             board[square.Row, square.Col] = pawn;
         }
-    
+
         public Piece GetPiece(Square square)
         {
             return board[square.Row, square.Col];
         }
-        
+
         public Square FindPiece(Piece piece)
         {
             for (var row = 0; row < GameSettings.BoardSize; row++)
-                for (var col = 0; col < GameSettings.BoardSize; col++)
-                    if (board[row, col] == piece)
-                        return Square.At(row, col);
+            for (var col = 0; col < GameSettings.BoardSize; col++)
+                if (board[row, col] == piece)
+                    return Square.At(row, col);
 
             throw new ArgumentException("The supplied piece is not on the board.", "piece");
         }
@@ -70,9 +70,9 @@ namespace Chessington.GameEngine
             CurrentPlayer = movingPiece.Player == Player.White ? Player.Black : Player.White;
             OnCurrentPlayerChanged(CurrentPlayer);
         }
-        
+
         public delegate void PieceCapturedEventHandler(Piece piece);
-        
+
         public event PieceCapturedEventHandler PieceCaptured;
 
         protected virtual void OnPieceCaptured(Piece piece)
