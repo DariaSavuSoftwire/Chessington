@@ -18,8 +18,7 @@ namespace Chessington.GameEngine.Tests.Pieces
             var moves = bishop.GetAvailableMoves(board);
 
             var expectedMoves = new List<Square>();
-            (int, int)[] bishopMoves = { (-1, -1), (1, -1), (-1, 1), (1, 1) };
-            foreach (var (directionsRow, directionsCol) in bishopMoves)
+            foreach (var (directionsRow, directionsCol) in GameSettings.BishopMoves)
             {
                 for (int row = 4 + directionsRow, col = 4 + directionsCol;
                      board.IsSquareInBoard(Square.At(row, col));
