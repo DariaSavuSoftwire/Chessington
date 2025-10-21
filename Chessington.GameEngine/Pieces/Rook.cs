@@ -6,8 +6,6 @@ namespace Chessington.GameEngine.Pieces
 {
     public class Rook : Piece
     {
-        private (int, int)[] rookMoves = { (-1, 0), (1, 0), (0, 1), (0, -1) };
-
         public Rook(Player player)
             : base(player) { }
 
@@ -16,7 +14,7 @@ namespace Chessington.GameEngine.Pieces
             List<Square> moves = new List<Square>();
             Square currentSquare = board.FindPiece(this);
 
-            foreach (var (moveRow, moveCol) in rookMoves)
+            foreach (var (moveRow, moveCol) in GameSettings.RookMoves)
             {
                 for (int row = currentSquare.Row + moveRow, col = currentSquare.Col + moveCol;
                      board.IsSquareInBoard(Square.At(row, col));
