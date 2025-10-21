@@ -7,12 +7,7 @@ namespace Chessington.GameEngine.Pieces
     {
         public Bishop(Player player)
             : base(player) { }
-
-        private bool IsPositionValid(int row, int col)
-        {
-            return row >= 0 && col >= 0 && row < GameSettings.BoardSize && col < GameSettings.BoardSize;
-        }
-
+        
         public override IEnumerable<Square> GetAvailableMoves(Board board)
         {
             int[] directionsRow = { -1, 1, -1, 1 };
@@ -22,7 +17,7 @@ namespace Chessington.GameEngine.Pieces
             for (int i = 0; i < 4; i++)
             {
                 for (int row = currentSquare.Row, col = currentSquare.Col;
-                     IsPositionValid(row, col);
+                     board.IsSquareInBoard(Square.At(row,col));
                      row += directionsRow[i], col += directionsCol[i])
                 {
                     Square nextSquare = Square.At(row, col);
