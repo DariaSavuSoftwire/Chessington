@@ -17,9 +17,11 @@ namespace Chessington.GameEngine.Pieces
             foreach (var (row, col) in kingMoves)
             {
                 Square nextSquare = Square.At(currentSquare.Row + row, currentSquare.Col + col);
-                if (board.IsSquareInBoard(nextSquare) && board.GetPiece(nextSquare) == null)
+                if (board.IsSquareInBoard(nextSquare) && (board.GetPiece(nextSquare) == null ||
+                                                          board.GetPiece(nextSquare).Player != Player))
                     moves.Add(nextSquare);
             }
+
             return moves;
         }
     }
