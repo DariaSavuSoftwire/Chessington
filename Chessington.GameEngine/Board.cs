@@ -12,15 +12,19 @@ namespace Chessington.GameEngine
         public IList<Piece> CapturedPieces { get; private set; }
 
         public Board()
-            : this(Player.White)
-        {
-        }
+            : this(Player.White) { }
 
         public Board(Player currentPlayer, Piece[,] boardState = null)
         {
             board = boardState ?? new Piece[GameSettings.BoardSize, GameSettings.BoardSize];
             CurrentPlayer = currentPlayer;
             CapturedPieces = new List<Piece>();
+        }
+        
+        public bool IsSquareInBoard(Square square)
+        {
+            return square.Row >= 0 && square.Row < GameSettings.BoardSize && square.Col >= 0 &&
+                   square.Col < GameSettings.BoardSize;
         }
 
         public void AddPiece(Square square, Piece pawn)
@@ -43,19 +47,10 @@ namespace Chessington.GameEngine
             throw new ArgumentException("The supplied piece is not on the board.", "piece");
         }
 
-        public bool IsSquareInBoard(Square square)
-        {
-            return square.Row >= 0 && square.Row < GameSettings.BoardSize && square.Col >= 0 &&
-                   square.Col < GameSettings.BoardSize;
-        }
-
         public void MovePiece(Square from, Square to)
         {
             var movingPiece = board[from.Row, from.Col];
-            if (movingPiece == null)
-            {
-                return;
-            }
+            if (movingPiece == null) { return; }
 
             if (movingPiece.Player != CurrentPlayer)
             {
