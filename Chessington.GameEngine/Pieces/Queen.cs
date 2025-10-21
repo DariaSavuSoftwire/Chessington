@@ -22,7 +22,12 @@ namespace Chessington.GameEngine.Pieces
                 {
                     Square nextSquare = Square.At(row, col);
                     if (board.GetPiece(nextSquare) != null)
+                    {
+                        if (board.GetPiece(nextSquare).Player != Player)
+                            moves.Add(nextSquare);
                         break;
+                    }
+
                     moves.Add(nextSquare);
                 }
             }
