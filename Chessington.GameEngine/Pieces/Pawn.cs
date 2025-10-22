@@ -5,7 +5,7 @@ namespace Chessington.GameEngine.Pieces
     public class Pawn : Piece
     {
         public Pawn(Player player)
-            : base(player){ }
+            : base(player) { }
 
         public int GetStartingRow(Player player)
         {
@@ -22,11 +22,12 @@ namespace Chessington.GameEngine.Pieces
                 Square nextSquare = Player == Player.White
                     ? Square.At(currentSquare.Row - move, currentSquare.Col)
                     : Square.At(currentSquare.Row + move, currentSquare.Col);
-                if ((hasNotMovedBefore || move == 1) && board.IsSquareInBoard(nextSquare) &&
-                    board.GetPiece(nextSquare) == null)
+                if (!board.IsSquareInBoard(nextSquare) || board.GetPiece(nextSquare) != null)
+                    break;
+                if (hasNotMovedBefore || move == 1)
                     moves.Add(nextSquare);
             }
-
+            
             return moves;
         }
     }

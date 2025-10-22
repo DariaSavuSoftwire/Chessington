@@ -7,7 +7,9 @@ namespace Chessington.GameEngine.Pieces
     public class Rook : Piece
     {
         public Rook(Player player)
-            : base(player) { }
+            : base(player)
+        {
+        }
 
         public override IEnumerable<Square> GetAvailableMoves(Board board)
         {
@@ -21,8 +23,14 @@ namespace Chessington.GameEngine.Pieces
                      row += moveRow, col += moveCol)
                 {
                     Square nextSquare = Square.At(row, col);
-                    if (board.GetPiece(nextSquare) == null)
-                        moves.Add(nextSquare);
+                    if (board.GetPiece(nextSquare) != null)
+                    {
+                        if (board.GetPiece(nextSquare).Player != Player)
+                            moves.Add(nextSquare);
+                        break;
+                    }
+
+                    moves.Add(nextSquare);
                 }
             }
 
