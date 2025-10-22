@@ -27,7 +27,15 @@ namespace Chessington.GameEngine.Pieces
                 if (hasNotMovedBefore || move == 1)
                     moves.Add(nextSquare);
             }
-            
+            foreach (var (row, col) in GameSettings.PawnMovesCapture)
+            {
+                Square nextSquare = Player == Player.White
+                    ? Square.At(currentSquare.Row - row, currentSquare.Col + col)
+                    : Square.At(currentSquare.Row + row, currentSquare.Col + col);
+                if (board.IsSquareInBoard(nextSquare) && board.GetPiece(nextSquare) != null &&
+                    board.GetPiece(nextSquare).Player != Player)
+                    moves.Add(nextSquare);
+            }
             return moves;
         }
     }
